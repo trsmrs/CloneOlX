@@ -5,6 +5,10 @@ const theme = createTheme({
     palette: {
         primary: {
             main: '#0000',
+            
+        },
+        background: {
+            default: 'red',
         }
     }
 })

@@ -11,7 +11,7 @@ import { deepPurple } from '@mui/material/colors';
 export default function ButtonAppBar() {
   return (
     // <Box sx={{ flexGrow: 1 }}>
-      <AppBar sx={{backgroundColor: deepPurple['A200']}} position="static">
+      <AppBar sx={{backgroundColor: "#9c27b0"}} position="fixed">
         <Toolbar>
           <IconButton
             size="large"
