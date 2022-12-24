@@ -7,9 +7,6 @@ const theme = createTheme({
             main: '#0000',
             
         },
-        background: {
-            default: 'red',
-        }
     }
 })
 
