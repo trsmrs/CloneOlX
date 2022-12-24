@@ -1,4 +1,4 @@
-import { DeleteForever, Palette } from '@mui/icons-material'
+import { DeleteForever } from '@mui/icons-material'
 import {
     Box,
     Button,
@@ -7,17 +7,34 @@ import {
     Select,
     TextField,
     Typography,
-} from '@mui/material'
-import { useTheme } from "@mui/material/styles"
 
+} from '@mui/material'
+import { useState } from 'react'
+import { useDropzone } from 'react-dropzone'
 import TemplateDefault from '../../src/templates/Default'
 
 
-
 const Publish = () => {
-    const theme = useTheme();
-    mask: { }
+
+    const [files, setFiles] = useState([])
+
+
+    const { getRootProps, getInputProps } = useDropzone({
+        accept: 'images/*', onDrop: (acceptFile) => {
+            const newFiles = acceptFile.map(file => {
+                return Object.assign(file, {
+                    preview: URL.createObjectURL(file)
+                })
+            })
+
+            setFiles([
+                ...files,
+                ...newFiles])
+        }
+    })
+   
     return (
+
 
         <TemplateDefault>
             <Container>
@@ -29,7 +46,6 @@ const Publish = () => {
                         Quanto mais detalhado, melhor!
                     </Typography>
                 </Container>
-
                 <Container maxWidth="md">
                     <Box sx={{ bgcolor: 'primary', padding: '4px' }}>
                         <Typography component='h6' variant="h6" align='center' gutterBottom>
@@ -72,7 +88,7 @@ const Publish = () => {
                         <Typography component='div' variant="body2" align='center'>
                             A Primeira imagem será a foto principal do anúncio.
                         </Typography>
-                        <Box sx={{ display: 'flex' }}>
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                             <Box sx={{
                                 width: 200,
                                 height: 150,
@@ -81,48 +97,61 @@ const Publish = () => {
                                 display: 'flex',
                                 justifyContent: "center",
                                 alignItems: 'center',
-                                textAlign: 'center'
-                            }}>
+                                textAlign: 'center',
+                                cursor: 'pointer'
+                            }}{...getRootProps()}>
+                                <input {...getInputProps()} />
                                 <Typography variant='body2' color="#000" >
                                     Clique para adicionar ou arraste uma imagem aqui.
                                 </Typography>
                             </Box>
-                            <Box sx={{
-                                backgroundImage: 'url(https://source.unsplash.com/random)',
-                                position: 'relative',
-                                width: '200px',
-                                height: '150px',
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center center',
-                            }}
-                            >
+                            {
+                                files.map((file, index) => (
+                                    <Box key={file.name} sx={{
+                                        backgroundImage: `url(${file.preview})`,
+                                        position: 'relative',
+                                        margin: '0px 15px 15px 0px',
+                                        width: '200px',
+                                        height: '150px',
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center center',
+                                    }}
+                                    >
 
-                                <Box sx={{
-                                    height: '100%',
-                                    "&:hover": {
-                                        
-                                        display: 'flex',
-                                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                                        '& .delBtn': { display: 'flex' }
-                                    }
-                                }}
-                                >
-                                    <Box sx={{position: 'absolute',padding:'6px 10px', bottom: 0, left: 0, bgcolor: '#9c27b0'}}>
-                                    <Typography  variant='body' color='#fff'>
-                                        Principal
-                                    </Typography>
-                                    </Box>
-                                    <IconButton sx={{width:'20%', height: '20%', marginLeft:'80px', marginTop:'50px'}}>
-                                        <DeleteForever sx={{
-                                            display: 'none',
-                                            color: '#fff'
-                                           
+                                        <Box sx={{
+                                            height: '100%',
+                                            "&:hover": {
+
+                                                display: 'flex',
+                                                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                                                '& .delBtn': { display: 'flex' }
+                                            }
                                         }}
-                                            className='delBtn' fontSize='large' />
-                                    </IconButton>
-                                </Box>
+                                        >
+                                            {
+                                                index === 0 ?
+                                                    <Box sx={{ position: 'absolute', padding: '6px 10px', bottom: 0, left: 0, bgcolor: '#9c27b0' }}>
+                                                        <Typography variant='body' color='#fff'>
+                                                            Principal
+                                                        </Typography>
+                                                    </Box>
+                                                    : null
+                                            }
 
-                            </Box>
+                                            <IconButton sx={{ width: '20%', height: '20%', marginLeft: '80px', marginTop: '50px' }}>
+                                                <DeleteForever sx={{
+                                                    display: 'none',
+                                                    color: '#fff'
+
+                                                }}
+                                                    className='delBtn' fontSize='large' />
+                                            </IconButton>
+                                        </Box>
+                                    </Box>
+
+                                ))
+                            }
+
                         </Box>
                     </Box>
                 </Container>
@@ -149,7 +178,6 @@ const Publish = () => {
                         <Typography component='h6' variant="h6" align='center' gutterBottom>
                             Dados para o Contato
                         </Typography>
-
                         <TextField sx={{ bgcolor: '#e8e3e9' }}
                             label='Nome'
                             variant='outlined'
@@ -159,10 +187,17 @@ const Publish = () => {
                         <br /><br />
 
                         <TextField sx={{ bgcolor: '#e8e3e9' }}
+                            required
                             label='Telefone'
                             variant='outlined'
                             size='small'
                             fullWidth
+                            type='tel'
+
+
+
+
+
                         />
                         <br /><br />
 
@@ -170,9 +205,11 @@ const Publish = () => {
                             label='E-mail'
                             variant='outlined'
                             size='small'
+                            type={'email'}
                             fullWidth
                         />
                         <br /><br />
+
                     </Box>
                 </Container>
 
