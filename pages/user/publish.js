@@ -88,7 +88,7 @@ const Publish = () => {
                                 </Typography>
                             </Box>
                             <Box sx={{
-                                backgroundImage: 'url(https://source.unsplash.com/rando)',
+                                backgroundImage: 'url(https://source.unsplash.com/random)',
                                 position: 'relative',
                                 width: '200px',
                                 height: '150px',
