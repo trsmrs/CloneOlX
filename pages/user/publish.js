@@ -1,5 +1,5 @@
-import { forwardRef } from 'react'
 import { DeleteForever } from '@mui/icons-material'
+import { forwardRef } from 'react'
 import {
     Box,
     Button,
@@ -8,8 +8,8 @@ import {
     Select,
     TextField,
     Typography,
-    Input
-
+    OutlinedInput,
+    InputAdornment,
 } from '@mui/material'
 import { useState } from 'react'
 import { useDropzone } from 'react-dropzone'
@@ -19,6 +19,9 @@ import { IMaskInput } from 'react-imask';
 import PropTypes from 'prop-types';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
+import NumberFormat from 'react-number-format';
+
+
 
 const TextMaskCustom = forwardRef(function TextMaskCustom(props, ref) {
     const { onChange, ...other } = props;
@@ -60,8 +63,10 @@ const Publish = () => {
         }
     })
 
+
+
     const [values, setValues] = useState({
-        textmask: '',
+        textmask: ''
         
     });
 
@@ -73,21 +78,13 @@ const Publish = () => {
     };
 
 
-    const handleRemoveFile = (fileName) =>{
+    const handleRemoveFile = (fileName) => {
         const newFiles = files.filter(file => file.name !== fileName)
         setFiles(newFiles)
     }
 
-    const handleSelects = (selection) =>{
-        selection.preventDefault()
-        alert(selects)
-    }
-
 
     return (
-
-
-
         <TemplateDefault>
             <Container>
                 <Container sx={{ backgroundColor: "#e8e3e9", padding: '10px 0 6px', marginTop: '100px' }} maxWidth='sm'>
@@ -110,7 +107,8 @@ const Publish = () => {
                             fullWidth
                         />
                         <br /> <br />
-                        <Select 
+
+                        <Select
                             native
                             value={valor}
                             variant='filled'
@@ -119,7 +117,7 @@ const Publish = () => {
                             inputProps={{
                                 name: 'age',
                             }}
-                        >   
+                        >
                             <option value="">Selecione</option>
                             <option id='1' value="Agricultura">Agricultura</option>
                             <option id='2' value="Lazer">Lazer</option>
@@ -193,7 +191,7 @@ const Publish = () => {
                                             }
 
                                             <IconButton sx={{ width: '20%', height: '20%', marginLeft: '80px', marginTop: '50px' }}
-                                            onClick={()=>{handleRemoveFile(file.name)}}
+                                                onClick={() => { handleRemoveFile(file.name) }}
                                             >
                                                 <DeleteForever sx={{
                                                     display: 'none',
@@ -229,41 +227,61 @@ const Publish = () => {
                     </Box>
                 </Container>
 
+                <Container maxWidth='md'>
+                    <Box sx={{ padding: '4px' }}>
+                        <Typography component='h6' variant="h6" align='center' gutterBottom>
+                            Preço
+                        </Typography>
+                        <br />
+                        <FormControl fullWidth variant='outlined'>
+                            <InputLabel>Valor</InputLabel>
+                            <OutlinedInput sx={{marginBottom: 10}}
+                            onChange={() => { }}
+                            startAdornment={<InputAdornment position='start'>R$</InputAdornment>}
+                            labelWidth={40}
+                            label="react"
+                            />
+                        </FormControl>
+                    </Box>
+                </Container>
+
                 <Container maxWidth="md">
                     <Box sx={{ padding: '4px' }}>
                         <Typography component='h6' variant="h6" align='center' gutterBottom>
                             Dados para o Contato
                         </Typography>
-                        <TextField sx={{ bgcolor: '#e8e3e9' }}
-                            label='Nome'
-                            variant='standard'
-                            size='small'
-                            fullWidth
-                        />
+                        <FormControl fullWidth variant='outlined'>
+                            <InputLabel>Nome</InputLabel>
+                            <OutlinedInput
+                                onChange={() => { }}
+                                label="react"
+                                
+                            />
+                        </FormControl>
                         <br /><br />
 
-                        <FormControl variant="outlined" component={'text'}>
-                            <InputLabel sx={{marginLeft: -2}} htmlFor="formatted-text-mask-input">Telefone</InputLabel>
-                            <Input sx={{width:'845px', bgcolor:'#e8e3e9'}}
-                               
+                        <FormControl fullWidth variant="outlined" sx={{ marginTop: 1 }}>
+                            <InputLabel>Tel</InputLabel>
+                            <OutlinedInput
                                 value={values.textmask}
                                 placeholder='( )___ ____'
                                 onChange={handleChange}
                                 name="textmask"
                                 id="formatted-text-mask-input"
                                 inputComponent={TextMaskCustom}
+                                label="react"
                             />
                         </FormControl>
-                        
+
                         <br /><br />
 
-                        <TextField sx={{ bgcolor: '#e8e3e9' }}
-                            label='E-mail'
-                            variant='standard'
-                            size='small'
-                            type={'email'}
-                            fullWidth
-                        />
+                        <FormControl fullWidth variant="outlined">
+                            <InputLabel>E-mail</InputLabel>
+                            <OutlinedInput
+                                onChange={() => { }}
+                                label="react"
+                            />
+                        </FormControl>
                         <br /><br />
 
                     </Box>
