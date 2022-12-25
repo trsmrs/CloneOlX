@@ -1,3 +1,4 @@
+import { forwardRef } from 'react'
 import { DeleteForever } from '@mui/icons-material'
 import {
     Box,
@@ -7,17 +8,43 @@ import {
     Select,
     TextField,
     Typography,
+    Input
 
 } from '@mui/material'
 import { useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import TemplateDefault from '../../src/templates/Default'
 
+import { IMaskInput } from 'react-imask';
+import PropTypes from 'prop-types';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+
+const TextMaskCustom = forwardRef(function TextMaskCustom(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+        <IMaskInput
+            {...other}
+            mask="(#0) 0000-00000"
+            definitions={{
+                '#': /[1-9]/,
+            }}
+            inputRef={ref}
+            onAccept={(value) => onChange({ target: { name: props.name, value } })}
+            overwrite
+        />
+    );
+});
+
+TextMaskCustom.propTypes = {
+    name: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+};
+
 
 const Publish = () => {
-
     const [files, setFiles] = useState([])
-
+    const [valor, setValor] = useState();
 
     const { getRootProps, getInputProps } = useDropzone({
         accept: 'images/*', onDrop: (acceptFile) => {
@@ -32,8 +59,33 @@ const Publish = () => {
                 ...newFiles])
         }
     })
-   
+
+    const [values, setValues] = useState({
+        textmask: '',
+        
+    });
+
+    const handleChange = (event) => {
+        setValues({
+            ...values,
+            [event.target.name]: event.target.value,
+        });
+    };
+
+
+    const handleRemoveFile = (fileName) =>{
+        const newFiles = files.filter(file => file.name !== fileName)
+        setFiles(newFiles)
+    }
+
+    const handleSelects = (selection) =>{
+        selection.preventDefault()
+        alert(selects)
+    }
+
+
     return (
+
 
 
         <TemplateDefault>
@@ -58,24 +110,26 @@ const Publish = () => {
                             fullWidth
                         />
                         <br /> <br />
-                        <Select
+                        <Select 
                             native
-                            value=''
+                            value={valor}
                             variant='filled'
                             fullWidth
-                            onChange={() => { }}
+                            onChange={(e) => setValor(e.target.value)}
                             inputProps={{
                                 name: 'age',
                             }}
-                        >
+                        >   
                             <option value="">Selecione</option>
-                            <option value="{1}">Agricultura</option>
-                            <option value="{2}">Lazer</option>
-                            <option value="{3}">Moda</option>
-                            <option value="{4}">Instrumentos musicais</option>
-                            <option value="{5}">Automotivo</option>
-                            <option value="{6}">Celulares</option>
-                            <option value="{6}">Outros</option>
+                            <option id='1' value="Agricultura">Agricultura</option>
+                            <option id='2' value="Lazer">Lazer</option>
+                            <option id='3' value="Moda">Moda</option>
+                            <option id='4' value="Instrumentos musicais">Instrumentos musicais</option>
+                            <option id='5' value="Automotivo">Automotivo</option>
+                            <option id='6' value="Computadores">Computadores</option>
+                            <option id='7' value="Eletrônicos">Eletrônicos</option>
+                            <option id='8' value="Celulares">Celulares</option>
+                            <option id='9' value="Outros">Outros</option>
                         </Select>
                     </Box>
                 </Container>
@@ -138,7 +192,9 @@ const Publish = () => {
                                                     : null
                                             }
 
-                                            <IconButton sx={{ width: '20%', height: '20%', marginLeft: '80px', marginTop: '50px' }}>
+                                            <IconButton sx={{ width: '20%', height: '20%', marginLeft: '80px', marginTop: '50px' }}
+                                            onClick={()=>{handleRemoveFile(file.name)}}
+                                            >
                                                 <DeleteForever sx={{
                                                     display: 'none',
                                                     color: '#fff'
@@ -180,30 +236,30 @@ const Publish = () => {
                         </Typography>
                         <TextField sx={{ bgcolor: '#e8e3e9' }}
                             label='Nome'
-                            variant='outlined'
+                            variant='standard'
                             size='small'
                             fullWidth
                         />
                         <br /><br />
 
-                        <TextField sx={{ bgcolor: '#e8e3e9' }}
-                            required
-                            label='Telefone'
-                            variant='outlined'
-                            size='small'
-                            fullWidth
-                            type='tel'
-
-
-
-
-
-                        />
+                        <FormControl variant="outlined" component={'text'}>
+                            <InputLabel sx={{marginLeft: -2}} htmlFor="formatted-text-mask-input">Telefone</InputLabel>
+                            <Input sx={{width:'845px', bgcolor:'#e8e3e9'}}
+                               
+                                value={values.textmask}
+                                placeholder='( )___ ____'
+                                onChange={handleChange}
+                                name="textmask"
+                                id="formatted-text-mask-input"
+                                inputComponent={TextMaskCustom}
+                            />
+                        </FormControl>
+                        
                         <br /><br />
 
                         <TextField sx={{ bgcolor: '#e8e3e9' }}
                             label='E-mail'
-                            variant='outlined'
+                            variant='standard'
                             size='small'
                             type={'email'}
                             fullWidth
