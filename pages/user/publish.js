@@ -19,7 +19,7 @@ import { IMaskInput } from 'react-imask';
 import PropTypes from 'prop-types';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import NumberFormat from 'react-number-format';
+
 
 
 
@@ -86,8 +86,8 @@ const Publish = () => {
 
     return (
         <TemplateDefault>
-            <Container>
-                <Container sx={{ backgroundColor: "#e8e3e9", padding: '10px 0 6px', marginTop: '100px' }} maxWidth='sm'>
+            <Container maxWidth='md'>
+                <Container sx={{ backgroundColor: "#e8e3e9", padding: '10px 0 6px', marginTop: '100px'}} maxWidth='md'>
                     <Typography component='h1' variant="h2" align='center'>
                         Publicar Anúncio
                     </Typography>

@@ -30,7 +30,7 @@ const Home = () => {
                     </IconButton>
                 </Paper>
             </Container>
-            <Container sx={{ marginTop: 10, padding: '8, 10, 6' }} maxWidth='md'>
+            <Container sx={{ marginTop: 10, padding: '8, 10, 6' }} maxWidth='lg'>
                 <GridController />
             </Container>
         </TemplateDefault>

@@ -11,6 +11,7 @@ import {
 
 import TemplateDefault from '../../src/templates/Default'
 import GridController from '../../src/components/Card'
+import Link from 'next/link'
 
 export default function Home() {
 
@@ -20,9 +21,11 @@ export default function Home() {
         <Typography component="h1" variant="h2" align='center'>
           Meus Anúncios
         </Typography>
-        <Button sx={{ margin: '30px auto', display: "block" }} variant='contained' color='secondary'>
-          Publicar novo anúncio
-        </Button>
+        <Link href='/user/publish'>
+          <Button sx={{ margin: '30px auto', display: "block" }} variant='contained' color='secondary'>
+            Publicar novo anúncio
+          </Button>
+        </Link>
       </Container>
       <Container maxWidth="md">
         {/* GRID */}
