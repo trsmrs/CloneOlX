@@ -1,16 +1,12 @@
 import {
   Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
   Container,
-  Grid,
-  Typography
+  Typography,
+  Grid
 } from '@mui/material'
 
 import TemplateDefault from '../../src/templates/Default'
-import GridController from '../../src/components/Card'
+import CardM from '../../src/components/Card'
 import Link from 'next/link'
 
 export default function Home() {
@@ -28,9 +24,25 @@ export default function Home() {
         </Link>
       </Container>
       <Container maxWidth="md">
-        {/* GRID */}
-        <GridController />
-        {/* fim do grid container */}
+      <Grid container spacing={4}>
+      <Grid item xs={12} sm={6} md={4}>
+        <CardM
+          image='https://source.unsplash.com/random'
+          title="Produtos"
+          subtitle='R$ 120,00'
+          actions={
+            <>
+              <Button size='small' color='secondary'>
+                Editar
+              </Button>
+              <Button size='small' color='secondary'>
+                Remover
+              </Button>
+            </>
+          }
+        />
+     </Grid>
+     </Grid>
       </Container>
     </TemplateDefault>
   )

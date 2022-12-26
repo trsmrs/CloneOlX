@@ -20,7 +20,7 @@ export default function App(props){
     <>
       <Head>
         <title>XLO Clone</title>
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-widht"></meta>
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width"></meta>
       </Head>
       <ThemeProvider theme={theme}>
         <Component {...pageProps} />
