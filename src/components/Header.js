@@ -52,7 +52,7 @@ export default function ButtonAppBar() {
               </Link>
               <Divider sx={{ marginBottom: 1 }}></Divider>
               <Link href='/'>
-                <MenuItem>Sair</MenuItem>
+                <MenuItem sx={{marginLeft:1}}>Sair</MenuItem>
               </Link>
             </Menu>
           </Toolbar>
