@@ -21,33 +21,31 @@ const Footer = () =>{
     
     return (
 
-        <Container
-        maxWidth="lg"
-        component='footer'
-        sx={{borderTop: '1px solid #fff',
+        <Container sx={{borderTop: '1px solid #fff',
         paddingTop: {md:2, sm:6, xs: 8},
         paddingBottom: {md:3, sm: 6, xs: 8}}}
-        
-        >
+        maxWidth="lg"
+        component='footer'
+         >
             <Grid container spacing={3}>
-             <Grid item sx={6} sm={3}>
+             <Grid item xs={6} sm={3}>
                 <Box textAlign='center'>
                     <Link href="/"><Typography>Quem somos</Typography></Link>
                 </Box>
              </Grid>
 
-             <Grid item sx={6} sm={3}>
+             <Grid item xs={6} sm={3}>
                 <Box textAlign='center'>
                     <Link href="/"><Typography>Nossos parceiros</Typography></Link>
                 </Box>
              </Grid>
 
-             <Grid item sx={6} sm={3}>
+             <Grid item xs={6} sm={3}>
                 <Box textAlign='center'>
                     <Link href="/"><Typography variant="subtitle1">Nossas unidades</Typography></Link>
                 </Box>
              </Grid>
-             <Grid item sx={6} sm={3}>
+             <Grid item xs={6} sm={3}>
                 <Box textAlign='center'>
                     <Link href="/"><Typography variant="subtitle1">Mapa</Typography></Link>
                 </Box>

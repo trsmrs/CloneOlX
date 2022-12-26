@@ -238,7 +238,6 @@ const Publish = () => {
                             <OutlinedInput sx={{marginBottom: 10}}
                             onChange={() => { }}
                             startAdornment={<InputAdornment position='start'>R$</InputAdornment>}
-                            labelWidth={40}
                             label="react"
                             />
                         </FormControl>

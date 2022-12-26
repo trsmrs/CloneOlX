@@ -43,6 +43,20 @@ const Home = () => {
                             subtitle='R$ 120,00'
                         />
                     </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <CardMui
+                            image='https://source.unsplash.com/random'
+                            title="Produtos"
+                            subtitle='R$ 120,00'
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <CardMui
+                            image='https://source.unsplash.com/random'
+                            title="Produtos"
+                            subtitle='R$ 120,00'
+                        />
+                    </Grid>
                 </Grid>
             </Container>
         </TemplateDefault>

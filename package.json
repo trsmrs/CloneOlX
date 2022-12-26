@@ -21,11 +21,13 @@
     "eslint-config-next": "13.1.0",
     "next": "13.1.0",
     "react": "18.2.0",
+    "react-carousel": "^4.3.0",
     "react-currency-format": "^1.1.0",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
     "react-imask": "^6.4.3",
     "react-input-mask": "^2.0.4",
+    "react-material-ui-carousel": "^3.4.2",
     "react-number-format": "^5.1.2",
     "react-phone-number-input": "^3.2.13",
     "react-text-mask": "^5.5.0"
