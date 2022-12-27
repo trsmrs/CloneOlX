@@ -1,4 +1,4 @@
-import { DeleteForever } from '@mui/icons-material'
+import { DeleteForever, ErrorSharp } from '@mui/icons-material'
 import { forwardRef } from 'react'
 import { Formik } from 'formik'
 import * as yup from 'yup'
@@ -12,15 +12,22 @@ import {
     Typography,
     OutlinedInput,
     InputAdornment,
+    MenuItem,
+    Input,
+
+
 } from '@mui/material'
 import { useState } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { IMaskInput } from 'react-imask';
-import PropTypes from 'prop-types';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
+import { IMaskInput } from 'react-imask'
+import PropTypes from 'prop-types'
+import FormControl from '@mui/material/FormControl'
+import FormHelperText from '@mui/material/FormHelperText'
+import InputLabel from '@mui/material/InputLabel'
 
 import TemplateDefault from '../../src/templates/Default'
+import { number } from 'yup/lib/locale'
+import { color, style } from '@mui/system'
 
 
 
@@ -45,6 +52,11 @@ TextMaskCustom.propTypes = {
     onChange: PropTypes.func.isRequired,
 };
 
+ const onFocus = (stil)=> {
+    stil:{
+        border: ' black'
+    }
+  }
 
 const Publish = () => {
     const [files, setFiles] = useState([])
@@ -85,24 +97,35 @@ const Publish = () => {
     }
 
     const ValidationSchema = yup.object().shape({
-        title: yup.string()
-            .min(6, 'Escreva um título maior')
-            .max(100, 'Título excedeu o limite de caracteres')
-            .required('Campo Obrigatório'),
+        title: yup.string().required('Campo obrigatório')
+            .min(6, 'Digite pelo menos seis caracteres')
+            .max(100, 'Limite excedido'),
+
+        category: yup.string().required('Campo obrigatório'),
+        dollar: yup.number().required('Digite um valor'),
+        nome: yup.string().required('Digite seu nome'),
+        email: yup.string().required('Digite um email válido'),
+        descript: yup.string()
+        .min(50, 'Escreva no mínimo cinquenta caracteres')
+        .required('Necessário deixar uma descrição do produto.'),
+
     })
-
-
-
 
     return (
         <TemplateDefault>
             <Formik
                 initialValues={{
-                    title: ''
+                    title: '',
+                    category: '',
+                    dollar: '',
+                    nome: '',
+                    tel: '',
+                    email: '',
+                    descript: '',
                 }}
                 validationSchema={ValidationSchema}
-                
-                onSubmit={(values)=>{
+
+                onSubmit={(values) => {
                     console.log('ok foi', values)
                 }}
             >
@@ -127,41 +150,46 @@ const Publish = () => {
                                     </Container>
                                     <Container maxWidth="md">
                                         <Box sx={{ bgcolor: 'primary', padding: '4px' }}>
-                                            <Typography component='h6' variant="h6" align='center' gutterBottom>
-                                                Título do Anúncio
-                                            </Typography>
-                                            <TextField
-                                                name='title'
-                                                value={values.title}
-                                                onChange={handleChange}
-                                                label="Ex..: Processador Duron 800 Mhz"
-                                                size='small'
-                                                variant='filled'
-                                                fullWidth
-                                            />
-                                            <br /> <br />
+                                            
+                                            <FormControl error={errors.title} fullWidth >
+                                                <InputLabel sx={{fontWeight: 400, color:'#000'}}>Título do Anúncio</InputLabel>
+                                                <OutlinedInput sx={{ bgcolor: '#e8e3e9', "&:hover":{border:'1px solid black' }}}
+                                                    placeholder="Ex..: Processador Duron 800 Mhz"
+                                                    name='title'
+                                                    value={values.title}
+                                                    onChange={handleChange}
+                                                />
+                                                <FormHelperText>
+                                                    {errors.title}
+                                                </FormHelperText>
+                                            </FormControl>
 
-                                            <Select
-                                                native
-                                                value={valor}
-                                                variant='filled'
-                                                fullWidth
-                                                onChange={(e) => setValor(e.target.value)}
-                                                inputProps={{
-                                                    name: 'age',
-                                                }}
-                                            >
-                                                <option value="">Selecione</option>
-                                                <option id='1' value="Agricultura">Agricultura</option>
-                                                <option id='2' value="Lazer">Lazer</option>
-                                                <option id='3' value="Moda">Moda</option>
-                                                <option id='4' value="Instrumentos musicais">Instrumentos musicais</option>
-                                                <option id='5' value="Automotivo">Automotivo</option>
-                                                <option id='6' value="Computadores">Computadores</option>
-                                                <option id='7' value="Eletrônicos">Eletrônicos</option>
-                                                <option id='8' value="Celulares">Celulares</option>
-                                                <option id='9' value="Outros">Outros</option>
-                                            </Select>
+                                            <br /> <br />
+                                            
+                                            <FormControl error={errors.category} fullWidth>
+                                            <InputLabel sx={{fontWeight: 400, color:'#000'}}>Categoria</InputLabel>
+                                                <Select sx={{ bgcolor: '#e8e3e9', "&:hover":{ border:' 1px solid black'}}}
+                                                    name='category'
+                                                    value={values.category}
+                                                    variant='outlined'
+                                                    fullWidth
+                                                    onChange={handleChange}
+                                                >
+
+                                                    <MenuItem value="Agricultura">Agricultura</MenuItem>
+                                                    <MenuItem value="Lazer">Lazer</MenuItem>
+                                                    <MenuItem value="Moda">Moda</MenuItem>
+                                                    <MenuItem value="Instrumentos musicais">Instrumentos musicais</MenuItem>
+                                                    <MenuItem value="Automotivo">Automotivo</MenuItem>
+                                                    <MenuItem value="Computadores">Computadores</MenuItem>
+                                                    <MenuItem value="Eletrônicos">Eletrônicos</MenuItem>
+                                                    <MenuItem value="Celulares">Celulares</MenuItem>
+                                                    <MenuItem value="Outros">Outros</MenuItem>
+                                                </Select>
+                                                <FormHelperText>
+                                                    {errors.category}
+                                                </FormHelperText>
+                                            </FormControl>
                                         </Box>
                                     </Container>
 
@@ -245,74 +273,89 @@ const Publish = () => {
 
                                     <Container maxWidth="md">
                                         <Box sx={{ padding: '4px' }}>
-                                            <Typography component='h6' variant="h6" align='center' gutterBottom>
-                                                Descrição
-                                            </Typography>
-                                            <Typography component='div' variant="body2" align='center'>
-                                                Descreva os detalhes do produto.
-                                            </Typography>
-                                            <TextField sx={{ bgcolor: '#e8e3e9' }}
+                                            <FormControl error={errors.descript} fullWidth variant='outlined'>
+                                            <InputLabel sx={{fontWeight: 400, color:'#000'}}>Descrição do Produto</InputLabel>
+                                            <OutlinedInput sx={{ bgcolor: '#e8e3e9', "&:hover":{ border:' 1px solid black'}}}
                                                 multiline
                                                 rows={6}
-                                                variant='outlined'
-                                                fullWidth
+                                                 
                                             />
+                                            <FormHelperText>
+                                                    {errors.descript}
+                                                </FormHelperText>
+                                            </FormControl>
                                         </Box>
                                     </Container>
 
                                     <Container maxWidth='md'>
                                         <Box sx={{ padding: '4px' }}>
-                                            <Typography component='h6' variant="h6" align='center' gutterBottom>
+                                            <Typography component='h6' variant="h6" align='left' marginTop={3} gutterBottom>
                                                 Preço
                                             </Typography>
                                             <br />
-                                            <FormControl fullWidth variant='outlined'>
+                                            <FormControl error={errors.dollar} fullWidth variant='outlined'>
                                                 <InputLabel>Valor</InputLabel>
-                                                <OutlinedInput sx={{ marginBottom: 10 }}
+                                                <OutlinedInput sx={{ bgcolor: '#e8e3e9', "&:hover":{ border:' 1px solid black'}}}
                                                     onChange={() => { }}
                                                     startAdornment={<InputAdornment position='start'>R$</InputAdornment>}
                                                     label="react"
+                                                    name='dollar'
+
                                                 />
+                                                <FormHelperText>
+                                                    {errors.dollar}
+                                                </FormHelperText>
                                             </FormControl>
                                         </Box>
                                     </Container>
 
-                                    <Container maxWidth="md">
+                                    <Container sx={{marginTop: 10}} maxWidth="md">
                                         <Box sx={{ padding: '4px' }}>
                                             <Typography component='h6' variant="h6" align='center' gutterBottom>
                                                 Dados para o Contato
                                             </Typography>
-                                            <FormControl fullWidth variant='outlined'>
-                                                <InputLabel>Nome</InputLabel>
-                                                <OutlinedInput
+                                            <FormControl error={errors.nome} fullWidth variant='outlined'>
+                                            <InputLabel sx={{fontWeight: 400, color:'#000'}}>Nome</InputLabel>
+                                                <OutlinedInput sx={{ bgcolor: '#e8e3e9', "&:hover":{ border:' 1px solid black'}}}
+                                                    name='nome'
+
                                                     onChange={() => { }}
                                                     label="react"
 
                                                 />
+                                                <FormHelperText>
+                                                    {errors.nome}
+                                                </FormHelperText>
                                             </FormControl>
                                             <br /><br />
 
-                                            <FormControl fullWidth variant="outlined" sx={{ marginTop: 1 }}>
-                                                <InputLabel>Tel</InputLabel>
-                                                <OutlinedInput
+                                            <FormControl fullWidth variant="outlined">
+                                            <InputLabel sx={{fontWeight: 400, color:'#000'}}>Telefone</InputLabel>
+                                                <OutlinedInput sx={{ bgcolor: '#e8e3e9', "&:hover":{ border:' 1px solid black'}}}
+
                                                     value={maskVal.textmask}
                                                     placeholder='( )___ ____'
                                                     onChange={handleMaskDollar}
                                                     name="textmask"
                                                     id="formatted-text-mask-input"
                                                     inputComponent={TextMaskCustom}
-                                                    label="react"
+                                                    
                                                 />
+
                                             </FormControl>
 
                                             <br /><br />
 
-                                            <FormControl fullWidth variant="outlined">
-                                                <InputLabel>E-mail</InputLabel>
-                                                <OutlinedInput
+                                            <FormControl error={errors.email} fullWidth variant="outlined">
+                                            <InputLabel sx={{fontWeight: 400, color:'#000'}}>E-mail</InputLabel>
+                                                <OutlinedInput sx={{ bgcolor: '#e8e3e9', "&:hover":{ border:' 1px solid black'}}}
                                                     onChange={() => { }}
-                                                    label="react"
+                                                    name='email'
+
                                                 />
+                                                <FormHelperText>
+                                                    {errors.email}
+                                                </FormHelperText>
                                             </FormControl>
                                             <br /><br />
 
