@@ -26,8 +26,7 @@ import FormHelperText from '@mui/material/FormHelperText'
 import InputLabel from '@mui/material/InputLabel'
 
 import TemplateDefault from '../../src/templates/Default'
-import { number } from 'yup/lib/locale'
-import { color, style } from '@mui/system'
+import { NumberFormatBase, NumericFormat } from 'react-number-format'
 
 
 
@@ -52,11 +51,6 @@ TextMaskCustom.propTypes = {
     onChange: PropTypes.func.isRequired,
 };
 
- const onFocus = (stil)=> {
-    stil:{
-        border: ' black'
-    }
-  }
 
 const Publish = () => {
     const [files, setFiles] = useState([])
@@ -90,7 +84,6 @@ const Publish = () => {
         });
     };
 
-
     const handleRemoveFile = (fileName) => {
         const newFiles = files.filter(file => file.name !== fileName)
         setFiles(newFiles)
@@ -102,14 +95,15 @@ const Publish = () => {
             .max(100, 'Limite excedido'),
 
         category: yup.string().required('Campo obrigatório'),
-        dollar: yup.number().required('Digite um valor'),
+        dollar: yup.string().required('Digite um valor'),
         nome: yup.string().required('Digite seu nome'),
         email: yup.string().required('Digite um email válido'),
         descript: yup.string()
-        .min(50, 'Escreva no mínimo cinquenta caracteres')
-        .required('Necessário deixar uma descrição do produto.'),
-
+            .min(50, 'Escreva no mínimo cinquenta caracteres')
+            .required('Necessário deixar uma descrição do produto.'),
     })
+
+
 
     return (
         <TemplateDefault>
@@ -150,10 +144,10 @@ const Publish = () => {
                                     </Container>
                                     <Container maxWidth="md">
                                         <Box sx={{ bgcolor: 'primary', padding: '4px' }}>
-                                            
+
                                             <FormControl error={errors.title} fullWidth >
-                                                <InputLabel sx={{fontWeight: 400, color:'#000'}}>Título do Anúncio</InputLabel>
-                                                <OutlinedInput sx={{ bgcolor: '#e8e3e9', "&:hover":{border:'1px solid black' }}}
+                                                <InputLabel sx={{ fontWeight: 400, color: '#000' }}>Título do Anúncio</InputLabel>
+                                                <OutlinedInput sx={{ bgcolor: '#e8e3e9'}}
                                                     placeholder="Ex..: Processador Duron 800 Mhz"
                                                     name='title'
                                                     value={values.title}
@@ -165,10 +159,10 @@ const Publish = () => {
                                             </FormControl>
 
                                             <br /> <br />
-                                            
+
                                             <FormControl error={errors.category} fullWidth>
-                                            <InputLabel sx={{fontWeight: 400, color:'#000'}}>Categoria</InputLabel>
-                                                <Select sx={{ bgcolor: '#e8e3e9', "&:hover":{ border:' 1px solid black'}}}
+                                                <InputLabel sx={{ fontWeight: 400, color: '#000' }}>Categoria</InputLabel>
+                                                <Select sx={{ bgcolor: '#e8e3e9'}}
                                                     name='category'
                                                     value={values.category}
                                                     variant='outlined'
@@ -274,13 +268,14 @@ const Publish = () => {
                                     <Container maxWidth="md">
                                         <Box sx={{ padding: '4px' }}>
                                             <FormControl error={errors.descript} fullWidth variant='outlined'>
-                                            <InputLabel sx={{fontWeight: 400, color:'#000'}}>Descrição do Produto</InputLabel>
-                                            <OutlinedInput sx={{ bgcolor: '#e8e3e9', "&:hover":{ border:' 1px solid black'}}}
-                                                multiline
-                                                rows={6}
-                                                 
-                                            />
-                                            <FormHelperText>
+                                                <InputLabel sx={{ fontWeight: 400, color: '#000' }}>Descrição do Produto</InputLabel>
+                                                <OutlinedInput sx={{ bgcolor: '#e8e3e9'}}
+                                                    name='descript'
+                                                    multiline
+                                                    rows={6}
+                                                    onChange={handleChange}
+                                                />
+                                                <FormHelperText>
                                                     {errors.descript}
                                                 </FormHelperText>
                                             </FormControl>
@@ -293,14 +288,13 @@ const Publish = () => {
                                                 Preço
                                             </Typography>
                                             <br />
-                                            <FormControl error={errors.dollar} fullWidth variant='outlined'>
+                                            <FormControl sx={{bgcolor: '#e8e3e9'}} error={errors.dollar} fullWidth >
                                                 <InputLabel>Valor</InputLabel>
-                                                <OutlinedInput sx={{ bgcolor: '#e8e3e9', "&:hover":{ border:' 1px solid black'}}}
-                                                    onChange={() => { }}
+                                                <NumericFormat customInput={OutlinedInput} thousandSeparator={true}
+                                                    onChange={handleChange}
                                                     startAdornment={<InputAdornment position='start'>R$</InputAdornment>}
-                                                    label="react"
                                                     name='dollar'
-
+                                        
                                                 />
                                                 <FormHelperText>
                                                     {errors.dollar}
@@ -309,17 +303,17 @@ const Publish = () => {
                                         </Box>
                                     </Container>
 
-                                    <Container sx={{marginTop: 10}} maxWidth="md">
+                                    <Container sx={{ marginTop: 10 }} maxWidth="md">
                                         <Box sx={{ padding: '4px' }}>
                                             <Typography component='h6' variant="h6" align='center' gutterBottom>
                                                 Dados para o Contato
                                             </Typography>
                                             <FormControl error={errors.nome} fullWidth variant='outlined'>
-                                            <InputLabel sx={{fontWeight: 400, color:'#000'}}>Nome</InputLabel>
-                                                <OutlinedInput sx={{ bgcolor: '#e8e3e9', "&:hover":{ border:' 1px solid black'}}}
+                                                <InputLabel sx={{ fontWeight: 400, color: '#000' }}>Nome</InputLabel>
+                                                <OutlinedInput sx={{ bgcolor: '#e8e3e9'}}
                                                     name='nome'
 
-                                                    onChange={() => { }}
+                                                    onChange={handleChange}
                                                     label="react"
 
                                                 />
@@ -330,8 +324,8 @@ const Publish = () => {
                                             <br /><br />
 
                                             <FormControl fullWidth variant="outlined">
-                                            <InputLabel sx={{fontWeight: 400, color:'#000'}}>Telefone</InputLabel>
-                                                <OutlinedInput sx={{ bgcolor: '#e8e3e9', "&:hover":{ border:' 1px solid black'}}}
+                                                <InputLabel sx={{ fontWeight: 400, color: '#000' }}>Telefone</InputLabel>
+                                                <OutlinedInput sx={{ bgcolor: '#e8e3e9'}}
 
                                                     value={maskVal.textmask}
                                                     placeholder='( )___ ____'
@@ -339,7 +333,7 @@ const Publish = () => {
                                                     name="textmask"
                                                     id="formatted-text-mask-input"
                                                     inputComponent={TextMaskCustom}
-                                                    
+
                                                 />
 
                                             </FormControl>
@@ -347,9 +341,9 @@ const Publish = () => {
                                             <br /><br />
 
                                             <FormControl error={errors.email} fullWidth variant="outlined">
-                                            <InputLabel sx={{fontWeight: 400, color:'#000'}}>E-mail</InputLabel>
-                                                <OutlinedInput sx={{ bgcolor: '#e8e3e9', "&:hover":{ border:' 1px solid black'}}}
-                                                    onChange={() => { }}
+                                                <InputLabel sx={{ fontWeight: 400, color: '#000' }}>E-mail</InputLabel>
+                                                <OutlinedInput sx={{ bgcolor: '#e8e3e9'}}
+                                                    onChange={handleChange}
                                                     name='email'
 
                                                 />
