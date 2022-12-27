@@ -1,12 +1,8 @@
-import { DeleteForever, ErrorSharp } from '@mui/icons-material'
-import { forwardRef } from 'react'
 import { Formik } from 'formik'
-import * as yup from 'yup'
 import {
     Box,
     Button,
     Container,
-    IconButton,
     Select,
     Typography,
     OutlinedInput,
@@ -14,50 +10,20 @@ import {
     MenuItem,
 } from '@mui/material'
 import { useState } from 'react'
-import { useDropzone } from 'react-dropzone'
-import { IMaskInput } from 'react-imask'
-import PropTypes from 'prop-types'
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
 import InputLabel from '@mui/material/InputLabel'
-
-import TemplateDefault from '../../src/templates/Default'
 import { NumericFormat } from 'react-number-format'
 
-
-
-const TextMaskCustom = forwardRef(function TextMaskCustom(props, ref) {
-    const { onChange, ...other } = props;
-    return (
-        <IMaskInput
-            {...other}
-            mask="(#0) 0000-00000"
-            definitions={{
-                '#': /[1-9]/,
-            }}
-            inputRef={ref}
-            onAccept={(value) => onChange({ target: { name: props.name, value } })}
-            overwrite
-        />
-    );
-});
-
-TextMaskCustom.propTypes = {
-    name: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-};
+import TemplateDefault from '../../../src/templates/Default'
+import { initialValues, validationSchema, TextMaskCustom } from './formValues'
+import FileUploads from '../../../src/components/FileUploads'
 
 
 const Publish = () => {
-    // const [files, setFiles] = useState([])
-    // const [valor, setValor] = useState();
-
     const [maskVal, setMaskValues] = useState({});
-
-
-
-
-    const handleMasPhone = (event) => {
+   
+    const handleMaskPhone = (event) => {
         setMaskValues({
             ...maskVal,
             [event.target.name]: event.target.value,
@@ -65,37 +31,11 @@ const Publish = () => {
        
     };
 
-    const ValidationSchema = yup.object().shape({
-        title: yup.string().required('Campo obrigatório')
-            .min(6, 'Digite pelo menos seis caracteres')
-            .max(100, 'Limite excedido'),
-
-        category: yup.string().required('Campo obrigatório'),
-        dollar: yup.string().required('Digite um valor'),
-        nome: yup.string().required('Digite seu nome'),
-        textmask: yup.string(),
-        email: yup.string().required('Digite um email válido'),
-        descript: yup.string()
-            .min(50, 'Escreva no mínimo cinquenta caracteres')
-            .required('Necessário deixar uma descrição do produto.'),
-        files: yup.array().min(1, 'Selecione pelo menos uma imagem')
-            .required('Cambo obrigatório')
-    })
-
     return (
         <TemplateDefault>
             <Formik
-                initialValues={{
-                    title: '',
-                    category: '',
-                    dollar: '',
-                    name: '',
-                    textmask: {},
-                    email: '',
-                    descript: '',
-                    files: [],
-                }}
-                validationSchema={ValidationSchema}
+                initialValues={initialValues}
+                validationSchema={validationSchema}
 
                 onSubmit={(values) => {
                     console.log('ok foi', values)
@@ -108,26 +48,11 @@ const Publish = () => {
                         errors,
                         handleChange,
                         handleSubmit,
-                        setFieldValue
+                        setFieldValue,
+                       
                     }) => {
-                        const { getRootProps, getInputProps } = useDropzone({
-                            accept: 'images/*', onDrop: (acceptFile) => {
-                                const newFiles = acceptFile.map(file => {
-                                    return Object.assign(file, {
-                                        preview: URL.createObjectURL(file)
-                                    })
-                                })
 
-                                setFieldValue('files', [
-                                    ...values.files,
-                                    ...newFiles])
-                            }
-                        })
-
-                        const handleRemoveFile = (fileName) => {
-                            const newFiles = values.files.filter(file => file.name !== fileName)
-                            setFieldValue('files', newFiles)
-                        }
+                        // FileUploads
 
                         return (
                             <form onSubmit={handleSubmit}>
@@ -186,84 +111,12 @@ const Publish = () => {
                                     </Container>
 
                                     <Container maxWidth="md">
-                                        <Box sx={{ backgroundColor: '#e8e3e9', padding: '4px' }}>
-                                            <Typography component='h6' variant="h6" color={errors.files && touched.files ? 'error' : 'black'} gutterBottom>
-                                                Imagens
-                                            </Typography>
-                                            {
-                                                errors.files && touched.files
-                                                    ? <Typography variant='body2' color='error' gutterBottom>{errors.files}</Typography>
-                                                    : null
-
-                                            }
-                                            <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-                                                <Box sx={{
-                                                    width: 200,
-                                                    height: 150,
-                                                    bgcolor: '#e8e3e9',
-                                                    border: '2px dashed black',
-                                                    display: 'flex',
-                                                    justifyContent: "center",
-                                                    alignItems: 'center',
-                                                    textAlign: 'center',
-                                                    cursor: 'pointer'
-                                                }}{...getRootProps()}>
-                                                    <input name='files' {...getInputProps()} />
-                                                    <Typography variant='body2' color="#000" >
-                                                        Clique para adicionar ou arraste uma imagem aqui.
-                                                    </Typography>
-                                                </Box>
-                                                {
-                                                    values.files.map((file, index) => (
-                                                        <Box key={file.name} sx={{
-                                                            backgroundImage: `url(${file.preview})`,
-                                                            position: 'relative',
-                                                            margin: '0px 15px 15px 0px',
-                                                            width: '200px',
-                                                            height: '150px',
-                                                            backgroundSize: 'cover',
-                                                            backgroundPosition: 'center center',
-                                                        }}
-                                                        >
-
-                                                            <Box sx={{
-                                                                height: '100%',
-                                                                "&:hover": {
-
-                                                                    display: 'flex',
-                                                                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                                                                    '& .delBtn': { display: 'flex' }
-                                                                }
-                                                            }}
-                                                            >
-                                                                {
-                                                                    index === 0 ?
-                                                                        <Box sx={{ position: 'absolute', padding: '6px 10px', bottom: 0, left: 0, bgcolor: '#9c27b0' }}>
-                                                                            <Typography variant='body' color='#fff'>
-                                                                                Principal
-                                                                            </Typography>
-                                                                        </Box>
-                                                                        : null
-                                                                }
-
-                                                                <IconButton sx={{ width: '20%', height: '20%', marginLeft: '80px', marginTop: '50px' }}
-                                                                    onClick={() => { handleRemoveFile(file.name) }}
-                                                                >
-                                                                    <DeleteForever sx={{
-                                                                        display: 'none',
-                                                                        color: '#fff'
-
-                                                                    }}
-                                                                        className='delBtn' fontSize='large' />
-                                                                </IconButton>
-                                                            </Box>
-                                                        </Box>
-
-                                                    ))
-                                                }
-
-                                            </Box>
-                                        </Box>
+                                        <FileUploads
+                                         files={values.files}
+                                         errors={errors.files}
+                                         touched={touched.files}
+                                         setFieldValue={setFieldValue}
+                                        />
                                     </Container>
 
                                     <Container maxWidth="md">
@@ -309,17 +162,14 @@ const Publish = () => {
                                             <Typography component='h6' variant="h6" align='center' gutterBottom>
                                                 Dados para o Contato
                                             </Typography>
-                                            <FormControl error={errors.name && touched.name} fullWidth variant='outlined'>
+                                            <FormControl error={errors.names && touched.names} fullWidth variant='outlined'>
                                                 <InputLabel sx={{ fontWeight: 400, color: '#000' }}>Nome</InputLabel>
                                                 <OutlinedInput sx={{ bgcolor: '#e8e3e9' }}
-                                                    name='name'
-
+                                                    name='names'
                                                     onChange={handleChange}
-
-
                                                 />
                                                 <FormHelperText>
-                                                    {errors.name && touched.name}
+                                                    {errors.names && touched.names ? errors.names : null}
                                                 </FormHelperText>
                                             </FormControl>
                                             <br /><br />
@@ -331,8 +181,8 @@ const Publish = () => {
                                                     name="textmask"
                                                     value={maskVal.textmask}
 
-                                                    onChange={handleMasPhone}
-                                                    onFocus={handleChange}
+                                                    onChange={handleMaskPhone}
+                                                    onBlur={handleChange}
                                                     id="formatted-text-mask-input"
                                                     inputComponent={TextMaskCustom}
 
