@@ -4,17 +4,14 @@ import Head from "next/head"
 import { ThemeProvider } from "@mui/material"
 import CssBaseline from "@mui/material"
 import theme from '../src/theme'
+import { ToastyProvider } from "../src/contexts/Toasty"
 import '../styles/globals.css'
+
 
 export default function App(props){
   const { Component, pageProps } = props
 
-  // useEffect(()=>{
-  //   const jssStyles = document.querySelector('#jss-server-side')
-  //   if(jssStyles){
-  //     jssStyles.parentElement.removeChild(jssStyles)
-  //   }
-  // },[])
+
 
   return (
     <>
@@ -23,13 +20,12 @@ export default function App(props){
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width"></meta>
       </Head>
       <ThemeProvider theme={theme}>
+      <ToastyProvider>
         <Component {...pageProps} />
+        </ToastyProvider>  
       </ThemeProvider>
     </>
   )
 }
 
-// App.propTypes ={
-//   Component: PropTypes.elementType.isRequired,
-//   pageProps: PropTypes.object.isRequired,
-// }
+

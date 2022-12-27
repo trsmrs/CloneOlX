@@ -18,8 +18,8 @@ async function dbConnect() {
 
 
 mongoose.Promise = global.Promise;
-// mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true});
-await mongoose.createConnection(MONGODB_URI).asPromise();
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true});
+// await mongoose.createConnection(MONGODB_URI).asPromise(), {useNewUrlParser: true}
 
 return mongoose
 }
